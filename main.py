@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field
 from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
+from langchain.agents import create_tool_calling_agent, AgentExecutor
 
 load_dotenv()
 
@@ -60,3 +61,13 @@ print("\nTopic:", response.topic)
 print("Summary:", response.summary)
 print("Sources:", response.sources)
 print("Tools used:", response.tools_used)
+
+
+agent = create_tool_calling_agent(
+    llm=llm_groq,
+    tools=[],
+    prompt=prompt,
+    output_parser=parser,
+)
+
+executor = AgentExecutor(agent=agent, tools=[], verbose=True)
