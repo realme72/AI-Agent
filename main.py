@@ -1,11 +1,14 @@
 from dotenv import load_dotenv
 from pydantic import BaseModel
-from langchain_openai import ChatOpenAI
-from langchain_anthropic import ChatAnthropic
+from langchain_groq import ChatGroq
 
 
 load_dotenv()  # Load environment variables from .env file
 
-llm_openai = ChatOpenAI(model_name="gpt-4o")  # Initialize OpenAI LLM
-
-
+llm_groq = ChatGroq(
+    model="openai/gpt-oss-120b",
+    temperature=0,
+    timeout=10,
+)
+response_groq = llm_groq.invoke("Hello, how are you?")
+print(response_groq)
